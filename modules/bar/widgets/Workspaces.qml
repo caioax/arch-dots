@@ -24,7 +24,7 @@ RowLayout {
         delegate: Rectangle {
             id: workspaceItem
 
-            anchors.verticalCenter: parent.verticalCenter
+            Layout.alignment: Qt.AlignVCenter
             radius: 10
 
             // Tentamos pegar o objeto real do workspace na memória do Hyprland

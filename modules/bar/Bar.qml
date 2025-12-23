@@ -13,7 +13,7 @@ Scope {
             required property var modelData
 
             // --- CONFIGURAÇÃO DA BARRA ---
-            height: 30
+            implicitHeight: 30
             color: "transparent"
             screen: modelData
 

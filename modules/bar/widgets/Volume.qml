@@ -1,35 +1,34 @@
 import QtQuick
-import qs.services // Assumindo que seu qmldir está configurado como vimos
+import qs.services
 
 Text {
     id: root
 
     // Definição das cores
     readonly property color clrActive: "#cdd6f4"
-    readonly property color clrMuted: "#6c7086" // Cinza escuro fica melhor pra mudo
-    readonly property color clrError: "#f38ba8" // Vermelho para erro
+    readonly property color clrMuted: "#6c7086"
+    readonly property color clrError: "#f38ba8"
 
     font.pixelSize: 16
-    font.bold: true // Fica melhor em barras
+    font.bold: true
 
-    // 1. Lógica da COR (Separada!)
+    // Lógica da COR
     color: {
         if (!Audio.sinkReady)
-            return clrError; // Se não tiver áudio (Erro)
+            return clrError;      // Se não tiver áudio (Erro)
         if (Audio.muted)
             return clrMuted;      // Se estiver mutado
-        return clrActive;                      // Normal
+        return clrActive;         // Normal
     }
 
-    // 2. Lógica do TEXTO (Separada!)
+    // Lógica do texto
     text: {
         // Se o áudio não estiver pronto (Pipewire caiu ou sem placa)
-        // Note o "!" (NÃO está pronto)
         if (!Audio.sinkReady)
-            return "  Erro";
+            return " Erro";
 
         if (Audio.muted)
-            return "  Mudo";
+            return " ";
 
         var icon = " ";
         if (Audio.volume < 0.3)
@@ -37,26 +36,30 @@ Text {
         else if (Audio.volume < 0.6)
             icon = " ";
 
-        // Adicionei um Math.floor ou round aqui só por segurança visual,
-        // mas seu Audio.qml já trata isso no percentage.
-        return icon + " " + Audio.percentage + "%";
+        return icon + Audio.percentage + "%";
     }
 
-    // Ação do Mouse
-    TapHandler {
-        onTapped: Audio.toggleMute()
+    // Interação como o mouse
+    MouseArea {
+        anchors.fill: parent
 
-        // Dica: Scroll para volume!
-        // O TapHandler não pega scroll, precisaria de um WheelHandler
-    }
+        // UX: Transforma o mouse na "Mãozinha" ao passar por cima
+        cursorShape: Qt.PointingHandCursor
 
-    // DICA EXTRA: Scroll no mouse para volume
-    WheelHandler {
-        onWheel: event => {
-            if (event.angleDelta.y > 0)
+        // Aceita botão esquerdo para clique
+        acceptedButtons: Qt.LeftButton
+
+        // Lógica do Clique (Mute)
+        onClicked: Audio.toggleMute()
+
+        // Lógica do Scroll (Volume)
+        onWheel: wheel => {
+            // angleDelta.y > 0 significa scroll para CIMA
+            if (wheel.angleDelta.y > 0) {
                 Audio.increaseVolume();
-            else
+            } else {
                 Audio.decreaseVolume();
+            }
         }
     }
 }

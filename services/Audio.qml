@@ -10,6 +10,10 @@ Singleton {
     readonly property var sink: Pipewire.defaultAudioSink
     readonly property PwNode source: Pipewire.defaultAudioSource
 
+    PwObjectTracker {
+        objects: [root.sink, root.source]
+    }
+
     // Checar se o sink esta pronto para operar
     readonly property bool sinkReady: sink !== null && sink.audio !== null
     readonly property bool sourceReady: source !== null && source.audio !== null
@@ -28,14 +32,14 @@ Singleton {
     readonly property int sourcePercentage: Math.round(sourceVolume * 100)
 
     function setVolume(newVolume) {
-        if (sinkReady && sink.audio) {
+        if (sinkReady) {
             sink.audio.muted = false;
             sink.audio.volume = Math.max(0, Math.min(1, newVolume));
         }
     }
 
     function toggleMute() {
-        if (sinkReady && sink.audio) {
+        if (sinkReady) {
             sink.audio.muted = !sink.audio.muted;
         }
     }
