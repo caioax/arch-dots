@@ -1,11 +1,16 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell.Services.UPower
+import qs.services
+import qs.config
 
 Text {
     id: root
+    font.family: Config.font
+    font.pixelSize: Config.fontSizeNormal
+    font.bold: true
+
     visible: false   // só aparece quando achar a bateria
-    font.pixelSize: 16
 
     property int capacity: 0
     property int state: UPowerDeviceState.Unknown
@@ -34,10 +39,10 @@ Text {
 
     color: {
         if (state === UPowerDeviceState.Charging)
-            return "#a6e3a1";
+            return Config.successColor;
         if (capacity < 20)
-            return "#f38ba8";
-        return "#cdd6f4";
+            return Config.warningColor;
+        return Config.textColor;
     }
 
     text: {

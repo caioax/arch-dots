@@ -1,9 +1,13 @@
 import QtQuick
 import qs.services
+import qs.config
 
 Text {
     text: Time.format("hh:mm")
-    color: "#cdd6f4"
-    font.pixelSize: 16
+
+    font.family: Config.font
+    font.pixelSize: Config.fontSizeNormal
     font.bold: true
+
+    color: Config.textColor
 }

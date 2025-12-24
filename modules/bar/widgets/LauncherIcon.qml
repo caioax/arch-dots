@@ -1,16 +1,17 @@
 import QtQuick
+import qs.config
 
 Rectangle {
     width: 24
     height: 23
-    color: tapLauncher.pressed ? "#3b3b3b" : "transparent" // Efeito visual ao clicar
-    radius: 5
+    color: tapLauncher.pressed ? Config.surface1Color : "transparent" // Efeito visual ao clicar
+    radius: Config.radiusSmall
 
     Text {
         anchors.centerIn: parent
-        text: "" // Ícone do Arch (requer Nerd Font)
-        color: "#cdd6f4"
-        font.pixelSize: 17
+        text: "" // Ícone do Arch
+        color: Config.textColor
+        font.pixelSize: Config.fontSizeLarge
     }
 
     // O "sensor" de cliques

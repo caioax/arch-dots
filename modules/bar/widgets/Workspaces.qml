@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Hyprland
+import qs.config
 
 RowLayout {
     id: root
@@ -9,7 +10,7 @@ RowLayout {
 
     readonly property int widthSize: 19
     readonly property int heightSize: 19
-    readonly property int widthSizeActive: 30
+    readonly property int widthSizeActive: 36
     readonly property int heightSizeActive: 20
 
     // 1. Pega o ID atual (se for nulo, assume 1)
@@ -25,7 +26,7 @@ RowLayout {
             id: workspaceItem
 
             Layout.alignment: Qt.AlignVCenter
-            radius: 10
+            radius: Config.radius
 
             // Tentamos pegar o objeto real do workspace na memória do Hyprland
             property var wsObject: Hyprland.workspaces.values.find(ws => ws.id === workspaceId)
@@ -44,8 +45,20 @@ RowLayout {
             property int realHeight: isActive ? root.heightSizeActive : root.heightSize
 
             readonly property bool visibleState: isVisible()
-            color: isActive ? "#7d9bba" : isEmpty ? "#313244" : "#5e6d7e"
+
+            visible: Layout.preferredWidth > 0
             clip: true
+
+            color: {
+                if (isActive)
+                    return Config.accentColor;
+                if (!isEmpty)
+                    return Config.surface2Color;
+                return Config.surface0Color;
+            }
+
+            border.width: isEmpty ? 1 : 0
+            border.color: Config.surface2Color
 
             Layout.preferredWidth: visibleState ? realWidth : 0
             Layout.preferredHeight: visibleState ? realHeight : 0
@@ -77,20 +90,20 @@ RowLayout {
             // Animações
             Behavior on color {
                 ColorAnimation {
-                    duration: 300
+                    duration: Config.animDuration
                 }
             }
 
             Behavior on Layout.preferredWidth {
                 NumberAnimation {
-                    duration: 300
+                    duration: Config.animDuration
                     easing.type: Easing.OutCubic
                 }
             }
 
             Behavior on opacity {
                 NumberAnimation {
-                    duration: 120
+                    duration: Config.animDuration
                 }
             }
 
@@ -98,9 +111,19 @@ RowLayout {
             Text {
                 anchors.centerIn: parent
                 text: workspaceItem.workspaceId
-                color: (workspaceItem.isActive || !workspaceItem.isEmpty) ? "#11111b" : "#9c9c9c"
-                font.pixelSize: workspaceItem.isActive ? 14 : 12
+
+                font.family: Config.font
                 font.bold: true
+
+                font.pixelSize: workspaceItem.isActive ? Config.fontSizeNormal : Config.fontSizeSmall
+
+                color: {
+                    if (workspaceItem.isActive)
+                        return Config.textReverseColor;
+                    if (!workspaceItem.isEmpty)
+                        return Confg.textColor;
+                    return Config.subtextColor;
+                }
             }
 
             // --- Ação de clique ---

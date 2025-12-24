@@ -1,16 +1,22 @@
 import Quickshell
 import QtQuick
 import QtQuick.Layouts
+import qs.config
 import "./widgets/"
 
 Scope {
     id: root
+
+    readonly property int gapIn: 10
+    readonly property int gapOut: 15
 
     Variants {
         model: Quickshell.screens
 
         PanelWindow {
             required property var modelData
+
+            property bool enableAutoHide: false
 
             // --- CONFIGURAÇÃO DA BARRA ---
             implicitHeight: 30
@@ -37,12 +43,10 @@ Scope {
             // Se não, margem é -29 (esconde, deixando 1px no topo para pegar o mouse).
             margins.top: enableAutoHide ? mouseSensor.hovered ? 0 : (-1 * (height - 1)) : 0
 
-            property bool enableAutoHide: false
-
             // Animação suave no movimento da janela
             Behavior on margins.top {
                 NumberAnimation {
-                    duration: 300
+                    duration: Config.animDuration
                     easing.type: Easing.OutExpo
                 }
             }
@@ -57,14 +61,14 @@ Scope {
             Rectangle {
                 id: barContent
                 anchors.fill: parent
-                color: "#141414"
+                color: Config.backgroundColor
 
                 // --- ESQUERDA ---
                 RowLayout {
                     anchors.left: parent.left
-                    anchors.leftMargin: 10
+                    anchors.leftMargin: root.gapOut
                     anchors.verticalCenter: parent.verticalCenter
-                    spacing: 15
+                    spacing: root.gapIn
 
                     LauncherIcon {} // Widget do launcher
                     Workspaces {} // Widget dos Workspaces
@@ -74,7 +78,7 @@ Scope {
                 RowLayout {
                     anchors.centerIn: parent
                     anchors.verticalCenter: parent.verticalCenter
-                    spacing: 15
+                    spacing: root.gapIn
 
                     Clock {} // Widget do relógio
                 }
@@ -82,11 +86,11 @@ Scope {
                 // --- DIREITA ---
                 RowLayout {
                     anchors.right: parent.right
-                    anchors.rightMargin: 10
+                    anchors.rightMargin: root.gapOut
                     anchors.verticalCenter: parent.verticalCenter
-                    spacing: 15
+                    spacing: root.gapIn
 
-                    // SystemTray {} // Tray
+                    // SystemTray {} // Widget da tray
 
                     Wifi {} // Widget do Wifi
                     Bluetooth {} // Widget do bluetooth

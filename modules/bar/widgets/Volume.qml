@@ -1,31 +1,27 @@
 import QtQuick
 import qs.services
+import qs.config
 
 Text {
     id: root
 
-    // Definição das cores
-    readonly property color clrActive: "#cdd6f4"
-    readonly property color clrMuted: "#6c7086"
-    readonly property color clrError: "#f38ba8"
-
-    font.pixelSize: 16
+    font.family: Config.font
+    font.pixelSize: Config.fontSizeNormal
     font.bold: true
 
-    // Lógica da COR
     color: {
         if (!Audio.sinkReady)
-            return clrError;      // Se não tiver áudio (Erro)
-        if (Audio.muted)
-            return clrMuted;      // Se estiver mutado
-        return clrActive;         // Normal
+            return Config.errorColor;      // Se não tiver áudio (Erro)
+        if (Audio.mutedColor)
+            return Config.mutedColor;      // Se estiver mutado
+        return Config.textColor;         // Normal
     }
 
     // Lógica do texto
     text: {
         // Se o áudio não estiver pronto (Pipewire caiu ou sem placa)
         if (!Audio.sinkReady)
-            return " Erro";
+            return " ";
 
         if (Audio.muted)
             return " ";
