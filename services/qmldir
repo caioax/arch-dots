@@ -1,4 +1,5 @@
 module qs.services
 singleton Time Time.qml
 singleton Audio Audio.qml
+singleton BluetoothService BluetoothService.qml
 

@@ -3,6 +3,7 @@ import QtQuick
 import QtQuick.Layouts
 import qs.config
 import "./widgets/"
+import "./widgets/quickSettings/"
 
 Scope {
     id: root
@@ -70,7 +71,6 @@ Scope {
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: root.gapIn
 
-                    LauncherIcon {} // Widget do launcher
                     Workspaces {} // Widget dos Workspaces
                 }
 
@@ -92,10 +92,11 @@ Scope {
 
                     // SystemTray {} // Widget da tray
 
-                    Wifi {} // Widget do Wifi
-                    Bluetooth {} // Widget do bluetooth
-                    Volume {} // Widget do som
-                    Battery {} // Widget da bateria
+                    // Wifi {} // Widget do Wifi
+                    // Bluetooth {} // Widget do bluetooth
+                    // Volume {} // Widget do som
+                    // Battery {} // Widget da bateria
+                    ControlButton {}
                 }
             }
         }

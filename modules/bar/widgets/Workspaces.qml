@@ -57,8 +57,8 @@ RowLayout {
                 return Config.surface0Color;
             }
 
-            border.width: isEmpty ? 1 : 0
-            border.color: Config.surface2Color
+            // border.width: isEmpty ? 1 : 0
+            // border.color: Config.surface2Color
 
             Layout.preferredWidth: visibleState ? realWidth : 0
             Layout.preferredHeight: visibleState ? realHeight : 0
@@ -121,7 +121,7 @@ RowLayout {
                     if (workspaceItem.isActive)
                         return Config.textReverseColor;
                     if (!workspaceItem.isEmpty)
-                        return Confg.textColor;
+                        return Config.textColor;
                     return Config.subtextColor;
                 }
             }

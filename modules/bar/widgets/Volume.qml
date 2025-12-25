@@ -12,8 +12,6 @@ Text {
     color: {
         if (!Audio.sinkReady)
             return Config.errorColor;      // Se não tiver áudio (Erro)
-        if (Audio.mutedColor)
-            return Config.mutedColor;      // Se estiver mutado
         return Config.textColor;         // Normal
     }
 
@@ -32,30 +30,30 @@ Text {
         else if (Audio.volume < 0.6)
             icon = " ";
 
-        return icon + Audio.percentage + "%";
+        return icon;
     }
 
     // Interação como o mouse
-    MouseArea {
-        anchors.fill: parent
-
-        // UX: Transforma o mouse na "Mãozinha" ao passar por cima
-        cursorShape: Qt.PointingHandCursor
-
-        // Aceita botão esquerdo para clique
-        acceptedButtons: Qt.LeftButton
-
-        // Lógica do Clique (Mute)
-        onClicked: Audio.toggleMute()
-
-        // Lógica do Scroll (Volume)
-        onWheel: wheel => {
-            // angleDelta.y > 0 significa scroll para CIMA
-            if (wheel.angleDelta.y > 0) {
-                Audio.increaseVolume();
-            } else {
-                Audio.decreaseVolume();
-            }
-        }
-    }
+    // MouseArea {
+    //     anchors.fill: parent
+    //
+    //     // UX: Transforma o mouse na "Mãozinha" ao passar por cima
+    //     cursorShape: Qt.PointingHandCursor
+    //
+    //     // Aceita botão esquerdo para clique
+    //     acceptedButtons: Qt.LeftButton
+    //
+    //     // Lógica do Clique (Mute)
+    //     onClicked: Audio.toggleMute()
+    //
+    //     // Lógica do Scroll (Volume)
+    //     onWheel: wheel => {
+    //         // angleDelta.y > 0 significa scroll para CIMA
+    //         if (wheel.angleDelta.y > 0) {
+    //             Audio.increaseVolume();
+    //         } else {
+    //             Audio.decreaseVolume();
+    //         }
+    //     }
+    // }
 }
